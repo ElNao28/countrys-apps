@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, map, catchError, of } from 'rxjs';
+import { Observable, tap, map, catchError, of, delay } from 'rxjs';
 import { Country } from '../interfaces/country';
 
 @Injectable({
@@ -8,8 +8,7 @@ import { Country } from '../interfaces/country';
 })
 export class CountriesService {
 
-  private url: string = 'https://restcountries.com/v3.1'
-  //
+  private url: string = 'https://restcountries.com/v3.1';
 
   constructor(private http:HttpClient) { }
 
@@ -22,27 +21,26 @@ export class CountriesService {
     );
   }
 
+  private getCountryRequest(url:string):Observable<Country[]>{
+    return this.http.get<Country[]>(url)
+    .pipe(
+      catchError(error =>of([])),
+      delay(2000)
+    );
+
+  }
   searchCapital(term:string): Observable<Country[]> {
     const urlApi = `${this.url}/capital/${term}`;
-    return this.http.get<Country[]>(urlApi)
-    .pipe(
-      catchError(error =>of([]))
-    );
+    return this.getCountryRequest(urlApi);
   }
 
   searchCountry(term: string):Observable<Country[]> {
     const urlApi = `${this.url}/name/${term}`;
-    return this.http.get<Country[]>(urlApi)
-    .pipe(
-      catchError(error =>of([]))
-    );
+    return this.getCountryRequest(urlApi);
   }
 
   searchRegion(term: string):Observable<Country[]> {
     const urlApi = `${this.url}/region/${term}`;
-    return this.http.get<Country[]>(urlApi)
-    .pipe(
-      catchError(error =>of([]))
-    );
+    return this.getCountryRequest(urlApi);
   }
 }

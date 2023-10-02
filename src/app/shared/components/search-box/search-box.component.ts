@@ -1,5 +1,5 @@
 import { Component,EventEmitter, Input,Output } from '@angular/core';
-
+//import {Subject} from 'rxjs';
 @Component({
   selector: 'app-search-box',
   templateUrl: './search-box.component.html',
@@ -7,6 +7,8 @@ import { Component,EventEmitter, Input,Output } from '@angular/core';
   ]
 })
 export class SearchBoxComponent {
+
+  //private debouncer = Subject<string>  =new Subject<string>();
 
   @Input()
   public placeholder:string = ''
@@ -16,5 +18,9 @@ export class SearchBoxComponent {
 
   emitValue(value: string):void {
     this.onValue.emit(value)
+  }
+
+  onKeyPress(searchTerm: string){
+    console.log(searchTerm)
   }
 }

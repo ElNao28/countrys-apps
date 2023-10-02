@@ -3,7 +3,6 @@
 <div class="row">
   <div class="col">
     <!-- searchBox -->
-    Busquedas
     <app-search-box
     (onValue)="searchByCapital($event)"
     placeholder="Buscar por capital"></app-search-box>
@@ -13,6 +12,7 @@
 <div class="row">
   <div class="col">
     <hr>
+    <app-loader-spining *ngIf="isLoading"></app-loader-spining>
     Tabla de resultados
     <app-country-table [countries]="countries"></app-country-table>
   </div>
